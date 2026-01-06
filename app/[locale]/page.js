@@ -6,20 +6,38 @@ import CertificateWall from '@/components/CertificateWall';
 import ContactSection from '@/components/ContactSection';
 import ChatBubble from '@/components/ChatBubble';
 import CVSection from '@/components/CVSection';
-
-// Import JSON data
-import projectsData from '@/data/projects.json';
-import experienceData from '@/data/experience.json';
-import educationData from '@/data/education.json';
-import certificatesData from '@/data/certificates.json';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'edge';
 
 export default async function HomePage() {
-  const projects = projectsData;
-  const experiences = experienceData;
-  const education = educationData;
-  const certificates = certificatesData;
+  let projects = [];
+  let experiences = [];
+  let education = [];
+  let certificates = [];
+
+  try {
+    // Connect to Cloudflare KV
+    const { env } = getRequestContext();
+    const kv = env.PORTFOLIO_DATA;
+
+    if (kv) {
+      // Fetch all data in parallel
+      const [projectsData, experienceData, educationData, certificatesData] = await Promise.all([
+        kv.get('projects', { type: 'json' }),
+        kv.get('experience', { type: 'json' }),
+        kv.get('education', { type: 'json' }),
+        kv.get('certificates', { type: 'json' })
+      ]);
+
+      projects = projectsData || [];
+      experiences = experienceData || [];
+      education = educationData || [];
+      certificates = certificatesData || [];
+    }
+  } catch (error) {
+    console.error('Error fetching data from KV:', error);
+  }
 
   return (
     <main className="min-h-screen">
