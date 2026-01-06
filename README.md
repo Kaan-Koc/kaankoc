@@ -19,6 +19,7 @@ Modern, bilingual (Turkish/English) portfolio website built with Next.js, Sanity
 - **Animations**: Framer Motion 11
 - **CMS**: Sanity.io
 - **Internationalization**: next-intl
+- **Deployment:** Cloudflare Pages (Active)
 - **Fonts**: Google Fonts (Anton + Inter)
 
 ## Getting Started
