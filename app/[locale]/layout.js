@@ -33,17 +33,19 @@ export function generateStaticParams() {
     return [{ locale: 'tr' }, { locale: 'en' }];
 }
 
+import trMessages from '../../messages/tr.json';
+import enMessages from '../../messages/en.json';
+
+const messagesMap = {
+    tr: trMessages,
+    en: enMessages,
+};
+
 export default async function RootLayout({ children, params }) {
     const { locale } = await params;
 
     // Load messages for the current locale
-    let messages;
-    try {
-        messages = (await import(`../../messages/${locale}.json`)).default;
-    } catch (error) {
-        console.error(`Failed to load messages for locale: ${locale}`, error);
-        messages = {};
-    }
+    const messages = messagesMap[locale] || messagesMap.en;
 
     return (
         <html lang={locale} className={`${inter.variable} ${anton.variable}`}>

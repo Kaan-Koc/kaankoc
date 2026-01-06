@@ -1,106 +1,90 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
-const CV_DIR = path.join(process.cwd(), 'public', 'cv');
-
-// Helper to ensure directory exists
-async function ensureDir() {
-    try {
-        await fs.access(CV_DIR);
-    } catch {
-        await fs.mkdir(CV_DIR, { recursive: true });
-    }
-}
+export const runtime = 'edge';
 
 export async function GET() {
-    await ensureDir();
     try {
-        const files = await fs.readdir(CV_DIR);
-        const cvFiles = await Promise.all(
-            files.map(async (file) => {
-                const stats = await fs.stat(path.join(CV_DIR, file));
-                return {
-                    name: file,
-                    url: `/cv/${file}`,
-                    createdAt: stats.birthtime,
-                    size: stats.size
-                };
-            })
-        );
-
-        // Sort by date (newest first)
-        cvFiles.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-        return NextResponse.json(cvFiles);
+        const { env } = getRequestContext();
+        const metadataList = await env.PORTFOLIO_DATA.get('cv_files');
+        const files = metadataList ? JSON.parse(metadataList) : [];
+        return NextResponse.json(files);
     } catch (error) {
-        console.error('Error listing CVs:', error);
         return NextResponse.json({ error: 'Dosyalar listelenemedi' }, { status: 500 });
     }
 }
 
 export async function POST(request) {
-    await ensureDir();
     try {
+        const { env } = getRequestContext();
         const formData = await request.formData();
         const file = formData.get('file');
 
         if (!file) {
-            return NextResponse.json(
-                { error: 'Dosya yüklenmedi.' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Dosya yüklenmedi.' }, { status: 400 });
         }
 
-        // Check if file is PDF
         if (file.type !== 'application/pdf') {
-            return NextResponse.json(
-                { error: 'Sadece PDF dosyaları yüklenebilir.' },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: 'Sadece PDF dosyaları yüklenebilir.' }, { status: 400 });
         }
 
-        const buffer = Buffer.from(await file.arrayBuffer());
-        // Clean filename: remove spaces, special chars, ensure unique if needed
+        const buffer = await file.arrayBuffer();
         const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-        const filePath = path.join(CV_DIR, safeName);
 
-        // Write file (overwrite if exists)
-        await fs.writeFile(filePath, buffer);
+        // Save binary file to KV
+        await env.PORTFOLIO_DATA.put(`file:${safeName}`, buffer, {
+            metadata: { contentType: 'application/pdf' }
+        });
+
+        // Update metadata list
+        const metadataListStr = await env.PORTFOLIO_DATA.get('cv_files');
+        let files = metadataListStr ? JSON.parse(metadataListStr) : [];
+
+        // Remove existing if overwriting
+        files = files.filter(f => f.name !== safeName);
+
+        files.unshift({
+            name: safeName,
+            url: `/api/cv/${safeName}`,
+            createdAt: new Date().toISOString(),
+            size: buffer.byteLength
+        });
+
+        await env.PORTFOLIO_DATA.put('cv_files', JSON.stringify(files));
 
         return NextResponse.json({
             success: true,
             message: 'CV başarıyla yüklendi.',
-            data: {
-                name: safeName,
-                url: `/cv/${safeName}`
-            }
+            data: files[0]
         });
 
     } catch (error) {
         console.error('CV upload error:', error);
-        return NextResponse.json(
-            { error: 'Dosya yüklenirken bir hata oluştu.' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Dosya yüklenirken bir hata oluştu.' }, { status: 500 });
     }
 }
 
 export async function DELETE(request) {
     try {
+        const { env } = getRequestContext();
         const { searchParams } = new URL(request.url);
         const filename = searchParams.get('filename');
 
-        if (!filename) {
-            return NextResponse.json({ error: 'Dosya adı gerekli' }, { status: 400 });
-        }
+        if (!filename) return NextResponse.json({ error: 'Dosya adı gerekli' }, { status: 400 });
 
-        const filePath = path.join(CV_DIR, filename);
-        await fs.unlink(filePath);
+        // Delete file content
+        await env.PORTFOLIO_DATA.delete(`file:${filename}`);
+
+        // Update list
+        const metadataListStr = await env.PORTFOLIO_DATA.get('cv_files');
+        if (metadataListStr) {
+            let files = JSON.parse(metadataListStr);
+            files = files.filter(f => f.name !== filename);
+            await env.PORTFOLIO_DATA.put('cv_files', JSON.stringify(files));
+        }
 
         return NextResponse.json({ success: true, message: 'Dosya silindi' });
     } catch (error) {
-        console.error('Delete error:', error);
         return NextResponse.json({ error: 'Dosya silinemedi' }, { status: 500 });
     }
 }

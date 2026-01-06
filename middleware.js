@@ -13,6 +13,8 @@ export function middleware(request) {
         return NextResponse.next();
     }
 
+    /* TEMPORARY DEBUG REMOVED */
+
     // Auth Check
     const token = request.cookies.get('admin_token');
     const isAuth = !!token;

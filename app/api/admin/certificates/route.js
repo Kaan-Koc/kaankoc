@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { getRequestContext } from '@cloudflare/next-on-pages';
+
+export const runtime = 'edge';
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), 'data', 'certificates.json');
-        const data = await fs.readFile(filePath, 'utf8');
-        return NextResponse.json(JSON.parse(data));
+        const { env } = getRequestContext();
+        const data = await env.PORTFOLIO_DATA.get('certificates');
+        return NextResponse.json(data ? JSON.parse(data) : []);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to read certificates' }, { status: 500 });
     }
@@ -14,9 +15,9 @@ export async function GET() {
 
 export async function POST(request) {
     try {
+        const { env } = getRequestContext();
         const certificates = await request.json();
-        const filePath = path.join(process.cwd(), 'data', 'certificates.json');
-        await fs.writeFile(filePath, JSON.stringify(certificates, null, 2));
+        await env.PORTFOLIO_DATA.put('certificates', JSON.stringify(certificates));
         return NextResponse.json({ success: true });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to save certificates' }, { status: 500 });

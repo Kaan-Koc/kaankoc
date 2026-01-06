@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { getRequestContext } from '@cloudflare/next-on-pages';
+
+export const runtime = 'edge';
 
 export async function GET() {
     try {
-        const filePath = path.join(process.cwd(), 'data', 'education.json');
-        const data = await fs.readFile(filePath, 'utf8');
-        return NextResponse.json(JSON.parse(data));
+        const { env } = getRequestContext();
+        const data = await env.PORTFOLIO_DATA.get('education');
+        return NextResponse.json(data ? JSON.parse(data) : []);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to read education' }, { status: 500 });
     }
@@ -14,9 +15,9 @@ export async function GET() {
 
 export async function POST(request) {
     try {
+        const { env } = getRequestContext();
         const education = await request.json();
-        const filePath = path.join(process.cwd(), 'data', 'education.json');
-        await fs.writeFile(filePath, JSON.stringify(education, null, 2));
+        await env.PORTFOLIO_DATA.put('education', JSON.stringify(education));
         return NextResponse.json({ success: true });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to save education' }, { status: 500 });

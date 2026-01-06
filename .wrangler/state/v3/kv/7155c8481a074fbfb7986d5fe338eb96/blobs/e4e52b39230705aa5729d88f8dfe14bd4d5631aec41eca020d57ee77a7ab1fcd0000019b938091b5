@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Fundamentals of Digital Marketing",
+    "issuer": "Google",
+    "issueDate": "2025-12-23",
+    "credentialUrl": "https://skillshop.exceedlms.com/student/award/vRHW29c2wotUm9qfHXxzPHb1?id=432479404",
+    "logo": "https://media.licdn.com/dms/image/v2/D4E2DAQGMep5QyJIPdQ/profile-treasury-image-shrink_1280_1280/B4EZtKV4HZHUAQ-/0/1766478808333?e=1768309200&v=beta&t=jB2gDuBMyRbmuDcUTlgc1mz9duhe93Jp2egRpZ-wKss",
+    "order": 0,
+    "id": "1767701143367"
+  },
+  {
+    "name": "Google Ads Search",
+    "issuer": "Google",
+    "issueDate": "2025-11-10",
+    "credentialUrl": "https://skillshop.credential.net/1ba434ab-f11e-4989-bd2b-2034395b517c#acc.AwDQe8d7",
+    "logo": "https://media.licdn.com/dms/image/sync/v2/D4D27AQFHPGVGnndH7g/articleshare-shrink_1280_800/B4DZptmSlhJAAQ-/0/1762775345962?e=1768309200&v=beta&t=cnSVVz-cCpM0amTFN8m2sQZ3gZgS3-VyEknpkygmKt0",
+    "order": 0,
+    "id": "1767701482724"
+  },
+  {
+    "name": "Apple Ads",
+    "issuer": "Apple",
+    "issueDate": "2025-10-09",
+    "credentialUrl": "https://certification-ads.apple.com/certificate/xsBeoKmzZ5",
+    "logo": "https://media.licdn.com/dms/image/sync/v2/D4D27AQFOZp7kpmDjZw/articleshare-shrink_800/B4DZnjKMAKKsAI-/0/1760452723334?e=1768309200&v=beta&t=BKY74QWmvrIKuiEUIwZ_lg6FdYSNDwgzj-5y1U7ra18",
+    "order": 0,
+    "id": "1767701564508"
+  },
+  {
+    "name": "Digital Marketing",
+    "issuer": "HubSpot Academy",
+    "issueDate": "2025-10-03",
+    "credentialUrl": "https://app-eu1.hubspot.com/academy/achievements/pqxt0xvz/en/1/kaan-koc/digital-marketing",
+    "logo": "https://media.licdn.com/dms/image/v2/D560BAQFGt4XAU9bF5w/company-logo_100_100/company-logo_100_100/0/1719518128249/hubspot_academy_logo?e=1769040000&v=beta&t=95JB9nmGGlY8O6qSizVDwiRLVq52Ta0NVA408OUI2xM",
+    "order": 0,
+    "id": "1767701668632"
+  },
+  {
+    "name": "Inbound",
+    "issuer": "HubSpot Academy",
+    "issueDate": "2025-10-29",
+    "credentialUrl": "https://app-eu1.hubspot.com/academy/achievements/61k3jvlv/en/1/kaan-koc/inbound",
+    "logo": "https://media.licdn.com/dms/image/v2/D560BAQFGt4XAU9bF5w/company-logo_100_100/company-logo_100_100/0/1719518128249/hubspot_academy_logo?e=1769040000&v=beta&t=95JB9nmGGlY8O6qSizVDwiRLVq52Ta0NVA408OUI2xM",
+    "order": 0,
+    "id": "1767701737946"
+  }
+]
