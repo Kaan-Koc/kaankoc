@@ -1,0 +1,62 @@
+{
+    "Navigation": {
+        "home": "Ana Sayfa",
+        "about": "Hakkımda",
+        "projects": "Projeler",
+        "certificates": "Sertifikalar",
+        "cv": "Özgeçmiş",
+        "contact": "İletişim"
+    },
+    "Hero": {
+        "greeting": "Merhaba, Ben",
+        "title": "Kaan Koç",
+        "subtitle": "Reklam Tasarımı ve İletişimi",
+        "description": "Yaratıcı reklam kampanyaları ve görsel iletişim stratejileri ile markaları güçlendiriyorum.",
+        "cta": "Projelerimi Gör"
+    },
+    "Timeline": {
+        "title": "Deneyim & Eğitim",
+        "experience": "İş Deneyimi",
+        "education": "Eğitim",
+        "present": "Günümüz",
+        "current": "Şu an devam ediyor"
+    },
+    "Projects": {
+        "title": "Projelerim",
+        "subtitle": "Son çalışmalarım ve projelere göz atın",
+        "viewDemo": "Demo Gör",
+        "viewCode": "Kodu Gör",
+        "technologies": "Teknolojiler"
+    },
+    "Certificates": {
+        "title": "Sertifikalar & Başarılar",
+        "subtitle": "Profesyonel sertifikalarım ve kazanımlarım",
+        "viewCredential": "Sertifikayı Gör",
+        "issuedBy": "Tarafından verildi"
+    },
+    "CV": {
+        "title": "Özgeçmiş"
+    },
+    "Contact": {
+        "title": "İletişime Geçin",
+        "subtitle": "Bir proje fikriniz mi var? Hadi konuşalım!",
+        "name": "Adınız",
+        "email": "E-posta",
+        "message": "Mesajınız",
+        "send": "Gönder",
+        "sending": "Gönderiliyor...",
+        "success": "Mesajınız başarıyla gönderildi!",
+        "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
+        "namePlaceholder": "Adınız Soyadınız",
+        "emailPlaceholder": "ornek@email.com",
+        "messagePlaceholder": "Mesajınızı buraya yazın..."
+    },
+    "ChatBubble": {
+        "tooltip": "Benimle iletişime geçin",
+        "close": "Kapat"
+    },
+    "Footer": {
+        "rights": "Tüm hakları saklıdır.",
+        "builtWith": "ile oluşturuldu"
+    }
+}

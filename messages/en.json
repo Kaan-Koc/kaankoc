@@ -1,0 +1,62 @@
+{
+    "Navigation": {
+        "home": "Home",
+        "about": "About",
+        "projects": "Projects",
+        "certificates": "Certificates",
+        "cv": "Resume",
+        "contact": "Contact"
+    },
+    "Hero": {
+        "greeting": "Hello, I'm",
+        "title": "Kaan Koç",
+        "subtitle": "Advertising Design & Communication",
+        "description": "Strengthening brands through creative advertising campaigns and visual communication strategies.",
+        "cta": "View My Projects"
+    },
+    "Timeline": {
+        "title": "Experience & Education",
+        "experience": "Work Experience",
+        "education": "Education",
+        "present": "Present",
+        "current": "Currently ongoing"
+    },
+    "Projects": {
+        "title": "My Projects",
+        "subtitle": "Check out my recent work and projects",
+        "viewDemo": "View Demo",
+        "viewCode": "View Code",
+        "technologies": "Technologies"
+    },
+    "Certificates": {
+        "title": "Certificates & Achievements",
+        "subtitle": "My professional certifications and accomplishments",
+        "viewCredential": "View Credential",
+        "issuedBy": "Issued by"
+    },
+    "CV": {
+        "title": "Resume"
+    },
+    "Contact": {
+        "title": "Get In Touch",
+        "subtitle": "Have a project idea? Let's talk!",
+        "name": "Your Name",
+        "email": "Email",
+        "message": "Message",
+        "send": "Send",
+        "sending": "Sending...",
+        "success": "Your message was sent successfully!",
+        "error": "An error occurred. Please try again.",
+        "namePlaceholder": "Your Full Name",
+        "emailPlaceholder": "example@email.com",
+        "messagePlaceholder": "Write your message here..."
+    },
+    "ChatBubble": {
+        "tooltip": "Contact me",
+        "close": "Close"
+    },
+    "Footer": {
+        "rights": "All rights reserved.",
+        "builtWith": "Built with"
+    }
+}
