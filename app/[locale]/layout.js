@@ -16,13 +16,13 @@ const anton = Anton({
 });
 
 export const metadata = {
-    title: 'Kaan Koç - Marketing & Technology Expert',
-    description: 'Portfolio website of Kaan Koç - Digital marketing strategist and web developer creating impactful experiences.',
-    keywords: 'marketing, technology, web development, digital marketing, portfolio',
+    title: 'Kaan Koç - Advertising Design & Communication',
+    description: 'Portfolio website of Kaan Koç - Advertising design and communication specialist creating impactful brand experiences.',
+    keywords: 'advertising, design, communication, creative strategy, portfolio',
     authors: [{ name: 'Kaan Koç' }],
     openGraph: {
-        title: 'Kaan Koç - Marketing & Technology Expert',
-        description: 'Portfolio website showcasing projects, experience, and achievements.',
+        title: 'Kaan Koç - Advertising Design & Communication',
+        description: 'Portfolio website showcasing advertising campaigns, design projects, and communication strategies.',
         type: 'website',
         locale: 'tr_TR',
         alternateLocale: 'en_US',
