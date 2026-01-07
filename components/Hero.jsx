@@ -88,7 +88,7 @@ export default function Hero() {
                 </motion.button>
             </div>
 
-            {/* Scroll indicator */}
+            {/* Scroll indicator - hidden on short screens like Nest Hub */}
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export default function Hero() {
                     repeatType: 'reverse',
                     duration: 1.5,
                 }}
-                className="absolute bottom-28 md:bottom-8 left-0 right-0 mx-auto w-6"
+                className="absolute bottom-28 md:bottom-8 left-0 right-0 mx-auto w-6 max-h-[700px]:hidden"
             >
                 <div className="w-6 h-10 border-2 border-yeditepe dark:border-white rounded-full flex justify-center">
                     <div className="w-1 h-3 bg-yeditepe dark:bg-white rounded-full mt-2" />
