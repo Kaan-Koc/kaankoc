@@ -48,7 +48,7 @@ export default function CVSection() {
                             <motion.div
                                 key={cv.name}
                                 whileHover={{ y: -5 }}
-                                className="glass p-4 rounded-xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all border border-transparent hover:border-yeditepe/30 w-full max-w-sm"
+                                className="glass p-4 rounded-xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all border border-transparent hover:border-yeditepe/30 w-full max-w-[85vw] md:max-w-sm"
                             >
                                 <h3 className="text-xl font-bold text-yeditepe dark:text-white truncate max-w-full text-center mb-2">
                                     {cv.name.replace(/.pdf$/i, '').replace(/[-_]/g, ' ')}
