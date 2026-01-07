@@ -37,6 +37,7 @@ export default function AdminDashboard() {
 
     const cards = [
         { title: 'Mesajlar', count: stats.messages, href: '/admin/messages', icon: '✉️', color: 'from-pink-500 to-rose-500' },
+        { title: 'Domain İzleme', count: '2', href: '/admin/domains', icon: '🌐', color: 'from-indigo-500 to-purple-500' },
         { title: 'Projeler', count: stats.projects, href: '/admin/projects', icon: '💼', color: 'from-blue-500 to-cyan-500' },
         { title: 'Deneyim', count: stats.experience, href: '/admin/experience', icon: '🏢', color: 'from-purple-500 to-pink-500' },
         { title: 'Eğitim', count: stats.education, href: '/admin/education', icon: '🎓', color: 'from-green-500 to-emerald-500' },
