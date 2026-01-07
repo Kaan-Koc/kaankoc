@@ -46,7 +46,7 @@ export const socialLinks = [
         url: 'https://kick.com/glusking',
         color: '#53FC18', // Kick Green
         viewBox: '0 0 24 24',
-        icon: <path fill="currentColor" d="M4.25 2v20h6v-6l4 6h5.5l-5.5-8 5.5-8h-5.5l-4 6v-6h-6z" />
+        icon: <path fill="currentColor" d="M4.5 2v20h6v-6l4 6h5.5l-5.5-8 5.5-8h-5.5l-4 6v-6h-6z" />
     },
     {
         name: 'Email',
