@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function AdminNav({ title, icon, actions, isDashboard = false }) {
@@ -15,10 +16,19 @@ export default function AdminNav({ title, icon, actions, isDashboard = false }) 
     return (
         <nav className="glass border-b border-white/10 mb-8">
             <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <h1 className="text-2xl font-anton text-white flex items-center gap-2">
-                    {icon && <span>{icon}</span>}
-                    <span>{title}</span>
-                </h1>
+                <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white">
+                        <Image
+                            src="/images/profile-logo.jpg"
+                            alt="Kaan Koç"
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                    <h1 className="text-2xl font-anton text-white">
+                        {title}
+                    </h1>
+                </div>
 
                 <div className="flex gap-4 items-center">
                     {/* Custom Actions */}
