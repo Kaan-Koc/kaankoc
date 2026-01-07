@@ -27,7 +27,10 @@ export default function CVSection() {
 
         // Set initial width
         const updateWidth = () => {
-            const width = Math.min(window.innerWidth * 0.9, 340); // Max width logic
+            // Match Tailwind 'md' breakpoint (768px) and 'max-w-sm' (384px) vs mobile 'max-w-[340px]'
+            const isDesktop = window.innerWidth >= 768;
+            const maxWidth = isDesktop ? 384 : 340;
+            const width = Math.min(window.innerWidth * 0.95, maxWidth); // Width logic
             setContainerWidth(width);
         };
 
