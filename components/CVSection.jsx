@@ -50,14 +50,14 @@ export default function CVSection() {
                                 whileHover={{ y: -5 }}
                                 className="glass p-3 rounded-xl flex flex-col items-center gap-4 group hover:bg-white/10 transition-all border border-transparent hover:border-yeditepe/30 w-full max-w-[340px] mx-auto md:max-w-sm"
                             >
-                                <h3 className="text-xl font-bold text-yeditepe dark:text-white truncate max-w-full text-center mb-2 px-2">
+                                <h3 className="text-xl text-yeditepe dark:text-white truncate max-w-full text-center mb-2 px-2">
                                     {(cv.originalName || cv.name).replace(/.pdf$/i, '').replace(/[-_]/g, ' ')}
                                 </h3>
 
                                 {/* PDF Preview */}
-                                <div className="w-full h-[300px] md:h-[500px] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
+                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
                                     <iframe
-                                        src={`${cv.url}#toolbar=0&view=FitH`}
+                                        src={`${cv.url}#toolbar=0&view=Fit`}
                                         className="w-full h-full border-0"
                                         title={`${cv.name} preview`}
                                         loading="lazy"
