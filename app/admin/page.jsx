@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function AdminLogin() {
     const [password, setPassword] = useState('');
@@ -53,9 +54,17 @@ export default function AdminLogin() {
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="text-center mb-8"
+                            className="text-center mb-8 flex flex-col items-center"
                         >
-                            <h1 className="text-4xl font-anton text-white mb-2">Admin Panel</h1>
+                            <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-white mb-4">
+                                <Image
+                                    src="/images/profile-logo.jpg"
+                                    alt="Kaan Koç"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                            <h1 className="text-4xl font-anton text-white mb-2">Kaan Koç - Admin Panel</h1>
                         </motion.div>
 
                         <form onSubmit={handleLogin} className="space-y-6">
