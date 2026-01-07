@@ -98,8 +98,7 @@ export default function Hero() {
                     repeatType: 'reverse',
                     duration: 1.5,
                 }}
-                className="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 z-10"
-                style={{ visibility: 'visible' }}
+                className="absolute bottom-20 md:bottom-8 left-0 right-0 mx-auto w-6"
             >
                 <div className="w-6 h-10 border-2 border-yeditepe dark:border-white rounded-full flex justify-center">
                     <div className="w-1 h-3 bg-yeditepe dark:bg-white rounded-full mt-2" />
