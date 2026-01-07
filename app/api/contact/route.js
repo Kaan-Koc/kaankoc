@@ -7,7 +7,14 @@ export const runtime = 'edge';
 // POST /api/contact - Submit new message
 export async function POST(request) {
     try {
-        const { env } = getRequestContext();
+        const ctx = getRequestContext();
+        const env = ctx?.env;
+
+        if (!env || !env.PORTFOLIO_DATA) {
+            console.warn('KV namespace not found. Running in local/mock mode?');
+            // Optionally return a mock success or specific error if critical
+        }
+
         const body = await request.json();
 
         // Validation

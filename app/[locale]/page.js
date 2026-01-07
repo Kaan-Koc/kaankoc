@@ -18,10 +18,11 @@ export default async function HomePage() {
 
   try {
     // Connect to Cloudflare KV
-    const { env } = getRequestContext();
-    const kv = env.PORTFOLIO_DATA;
+    const ctx = getRequestContext();
+    const env = ctx?.env;
 
-    if (kv) {
+    if (env && env.PORTFOLIO_DATA) {
+      const kv = env.PORTFOLIO_DATA;
       // Fetch all data in parallel
       const [projectsData, experienceData, educationData, certificatesData] = await Promise.all([
         kv.get('projects', { type: 'json' }),
