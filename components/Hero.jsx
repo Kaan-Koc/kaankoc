@@ -17,7 +17,7 @@ export default function Hero() {
     return (
         <section
             id="hero"
-            className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-blue-50 to-yeditepe-100 dark:from-gray-900 dark:via-yeditepe-900 dark:to-gray-900"
+            className="relative min-h-[110dvh] md:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-blue-50 to-yeditepe-100 dark:from-gray-900 dark:via-yeditepe-900 dark:to-gray-900"
         >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
