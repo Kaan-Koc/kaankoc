@@ -58,7 +58,7 @@ export default function AdminDashboard() {
             {/* Content */}
             <div className="relative z-10">
                 {/* Navigation */}
-                <AdminNav title="Admin Dashboard" isDashboard={true} />
+                <AdminNav title="Kaan Koç - Admin Panel" isDashboard={true} />
 
                 {/* Main Content */}
                 <div className="max-w-7xl mx-auto px-4 py-12">

@@ -15,7 +15,7 @@ const anton = Anton({
 });
 
 export const metadata = {
-  title: 'Admin Panel - Kaan Koç',
+  title: 'Kaan Koç - Admin Panel',
   description: 'Portfolio admin panel',
 };
 
