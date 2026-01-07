@@ -58,6 +58,7 @@ export async function POST(request) {
 
         files.unshift({
             name: safeName,
+            originalName: file.name, // Store original name for display (e.g. "Türkçe.pdf")
             url: `/api/cv/${safeName}`,
             createdAt: new Date().toISOString(),
             size: buffer.byteLength
