@@ -21,8 +21,8 @@ export const metadata = {
 
 export default function AdminLayout({ children }) {
   return (
-    <html lang="tr">
-      <body className={`${inter.variable} ${anton.variable}`}>{children}</body>
+    <html lang="tr" style={{ scrollBehavior: 'auto' }}>
+      <body className={`${inter.variable} ${anton.variable}`} style={{ overflowAnchor: 'none' }}>{children}</body>
     </html>
   );
 }
