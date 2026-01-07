@@ -28,9 +28,9 @@ export const metadata = {
         alternateLocale: 'en_US',
     },
     icons: {
-        icon: '/images/profile-logo.jpg',
-        shortcut: '/images/profile-logo.jpg',
-        apple: '/images/profile-logo.jpg',
+        icon: '/images/favicon-circle.png',
+        shortcut: '/images/favicon-circle.png',
+        apple: '/images/favicon-circle.png',
     },
 };
 
