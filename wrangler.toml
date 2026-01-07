@@ -6,3 +6,13 @@ compatibility_flags = ["nodejs_compat"]
 binding = "PORTFOLIO_DATA"
 id = "portfolio-data-kv"
 preview_id = "portfolio-data-kv-preview"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "rate-limit-kv"
+preview_id = "rate-limit-kv-preview"
+
+[[kv_namespaces]]
+binding = "ADMIN_LOGS"
+id = "admin-logs-kv"
+preview_id = "admin-logs-kv-preview"

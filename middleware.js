@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
+import { jwtVerify } from 'jose';
 
-export function middleware(request) {
+export async function middleware(request) {
     const { pathname } = request.nextUrl;
 
     // Redirect .pages.dev to main domain
@@ -19,13 +20,26 @@ export function middleware(request) {
         return NextResponse.next();
     }
 
-    /* TEMPORARY DEBUG REMOVED */
-
     // Auth Check
     const token = request.cookies.get('admin_token');
-    const isAuth = !!token;
     const isLoginPage = pathname === '/admin';
     const isProtected = pathname.startsWith('/admin/') || pathname.startsWith('/api/admin');
+
+    // Verify JWT token for protected routes
+    let isAuth = false;
+    if (token?.value) {
+        try {
+            // Get JWT_SECRET from environment (will be available in Edge runtime)
+            const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev';
+            const secret = new TextEncoder().encode(JWT_SECRET);
+
+            const { payload } = await jwtVerify(token.value, secret);
+            isAuth = payload.admin === true;
+        } catch (error) {
+            // Invalid or expired token
+            isAuth = false;
+        }
+    }
 
     // Redirect to dashboard if logged in and visiting login page
     if (isLoginPage && isAuth) {
