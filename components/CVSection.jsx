@@ -55,10 +55,10 @@ export default function CVSection() {
                                 </h3>
 
                                 {/* PDF Preview */}
-                                <div className="w-full h-[500px] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
+                                <div className="w-full h-[300px] md:h-[500px] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
                                     <iframe
-                                        src={`${cv.url}#toolbar=0`}
-                                        className="w-full h-full"
+                                        src={`${cv.url}#toolbar=0&view=FitH`}
+                                        className="w-full h-full border-0"
                                         title={`${cv.name} preview`}
                                         loading="lazy"
                                     />
