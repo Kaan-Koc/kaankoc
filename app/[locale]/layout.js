@@ -3,14 +3,14 @@ import { I18nProvider } from '@/lib/i18n';
 import '../globals.css';
 
 const inter = Inter({
-    subsets: ['latin'],
+    subsets: ['latin', 'latin-ext'],
     variable: '--font-inter',
     display: 'swap',
 });
 
 const anton = Anton({
     weight: '400',
-    subsets: ['latin'],
+    subsets: ['latin', 'latin-ext'],
     variable: '--font-anton',
     display: 'swap',
 });
