@@ -55,19 +55,25 @@ export default function CVSection() {
                                 </h3>
 
                                 {/* PDF Preview */}
-                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors flex items-center justify-center">
-                                    {/* Mobile: Static Icon */}
-                                    <div className="md:hidden flex flex-col items-center justify-center opacity-50">
-                                        <span className="text-6xl mb-2">📄</span>
-                                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">Önizleme</span>
+                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
+                                    {/* Mobile: CSS Scaled Iframe */}
+                                    <div className="md:hidden w-full h-full overflow-hidden relative">
+                                        <iframe
+                                            src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                                            className="absolute top-0 left-0 w-[300%] h-[300%] border-0 origin-top-left scale-[0.3333] pointer-events-none"
+                                            title={`${cv.name} preview`}
+                                            loading="lazy"
+                                            scrolling="no"
+                                        />
                                     </div>
 
-                                    {/* Desktop: Interactive Iframe */}
+                                    {/* Desktop: Normal Iframe */}
                                     <iframe
                                         src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                                        className="hidden md:block w-full h-full border-0"
+                                        className="hidden md:block w-full h-full border-0 pointer-events-none md:pointer-events-auto"
                                         title={`${cv.name} preview`}
                                         loading="lazy"
+                                        scrolling="no"
                                     />
                                 </div>
 
