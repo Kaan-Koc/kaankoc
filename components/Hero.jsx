@@ -17,7 +17,7 @@ export default function Hero() {
     return (
         <section
             id="hero"
-            className="relative min-h-[110dvh] md:min-h-screen flex items-start md:items-center justify-center overflow-hidden bg-gradient-to-b from-white via-blue-50 to-yeditepe-100 dark:from-gray-900 dark:via-yeditepe-900 dark:to-gray-900"
+            className="relative min-h-[110dvh] md:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-blue-50 to-yeditepe-100 dark:from-gray-900 dark:via-yeditepe-900 dark:to-gray-900"
         >
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
@@ -35,7 +35,7 @@ export default function Hero() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-0 md:py-32 text-center">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
                 <motion.p
                     variants={fadeIn}
                     initial="hidden"
