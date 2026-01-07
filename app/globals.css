@@ -83,6 +83,8 @@ html {
 body {
   @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
   font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 h1,
