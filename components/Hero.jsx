@@ -99,7 +99,7 @@ export default function Hero() {
                     repeatType: 'reverse',
                     duration: 1.5,
                 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                className="absolute bottom-20 md:bottom-8 left-1/2 transform -translate-x-1/2"
             >
                 <div className="w-6 h-10 border-2 border-yeditepe dark:border-white rounded-full flex justify-center">
                     <div className="w-1 h-3 bg-yeditepe dark:bg-white rounded-full mt-2" />
