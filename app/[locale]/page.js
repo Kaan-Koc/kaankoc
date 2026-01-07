@@ -16,14 +16,19 @@ export default async function HomePage() {
   let education = [];
   let certificates = [];
 
+  // Default empty state to prevent crashes
+  let projects = [];
+  let experiences = [];
+  let education = [];
+  let certificates = [];
+
   try {
-    // Connect to Cloudflare KV
+    // Attempt to load from Cloudflare KV if available
     const ctx = getRequestContext();
     const env = ctx?.env;
 
     if (env && env.PORTFOLIO_DATA) {
       const kv = env.PORTFOLIO_DATA;
-      // Fetch all data in parallel
       const [projectsData, experienceData, educationData, certificatesData] = await Promise.all([
         kv.get('projects', { type: 'json' }),
         kv.get('experience', { type: 'json' }),
@@ -37,7 +42,8 @@ export default async function HomePage() {
       certificates = certificatesData || [];
     }
   } catch (error) {
-    console.error('Error fetching data from KV:', error);
+    console.error('KV Data Fetch Failed (Using empty defaults):', error);
+    // Silent fallback to empty arrays - prevents 500 Error
   }
 
   return (
