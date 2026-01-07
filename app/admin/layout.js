@@ -18,7 +18,9 @@ export const metadata = {
   title: 'Kaan Koç - Admin Panel',
   description: 'Portfolio admin panel',
   icons: {
-    icon: '/favicon-circle.png',
+    icon: '/images/favicon-circle.png',
+    shortcut: '/images/favicon-circle.png',
+    apple: '/images/favicon-circle.png',
   },
 };
 
