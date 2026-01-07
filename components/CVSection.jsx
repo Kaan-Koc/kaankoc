@@ -9,10 +9,7 @@ export default function CVSection() {
     const t = useTranslations('CV'); // You'll need to add translations for this
     const [cvs, setCvs] = useState([]);
 
-    const [baseUrl, setBaseUrl] = useState('');
-
     useEffect(() => {
-        setBaseUrl(window.location.origin);
         // ... existing fetch logic
     }, []);
 
@@ -22,12 +19,8 @@ export default function CVSection() {
     <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
         {/* Mobile: Google Docs Viewer (Best for compatibility) */}
         <div className="md:hidden w-full h-full relative">
-            {baseUrl && (
-                <iframe
-                    src={`https://docs.google.com/viewer?url=${baseUrl}${cv.url}&embedded=true`}
-                    className="absolute top-0 left-0 w-full h-full border-0 pointer-events-none"
-                    title={`${cv.name} preview`}
-                    loading="lazy"
+            title={`${cv.name} preview`}
+            loading="lazy"
                 />
             )}
         </div>
@@ -76,19 +69,14 @@ export default function CVSection() {
                                 </h3>
 
                                 {/* PDF Preview */}
-                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
-                                    {/* Mobile: CSS Scaled Iframe */}
-                                    <div className="md:hidden w-full h-full overflow-hidden relative">
-                                        <iframe
-                                            src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                                            className="absolute top-0 left-0 w-[300%] h-[300%] border-0 origin-top-left scale-[0.3333] pointer-events-none"
-                                            title={`${cv.name} preview`}
-                                            loading="lazy"
-                                            scrolling="no"
-                                        />
+                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors flex items-center justify-center">
+                                    {/* Mobile: Static Icon */}
+                                    <div className="md:hidden flex flex-col items-center justify-center opacity-50">
+                                        <span className="text-6xl mb-2">📄</span>
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">Önizleme</span>
                                     </div>
 
-                                    {/* Desktop: Normal Iframe */}
+                                    {/* Desktop: Native Iframe */}
                                     <iframe
                                         src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
                                         className="hidden md:block w-full h-full border-0 pointer-events-none md:pointer-events-auto"
