@@ -19,19 +19,18 @@ export default function Hero() {
             id="hero"
             className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-white via-blue-50 to-yeditepe-100 dark:from-gray-900 dark:via-yeditepe-900 dark:to-gray-900"
         >
-            {/* Animated background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 0.1, scale: 1 }}
                     transition={{ duration: 1.5 }}
-                    className="absolute top-0 -left-10 md:top-1/4 md:left-1/4 w-72 h-72 md:w-96 md:h-96 bg-yeditepe rounded-full blur-3xl"
+                    className="hidden md:block absolute top-1/4 left-1/4 w-96 h-96 bg-yeditepe rounded-full blur-3xl"
                 />
                 <motion.div
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 0.1, scale: 1 }}
                     transition={{ duration: 1.5, delay: 0.3 }}
-                    className="absolute bottom-0 -right-10 md:bottom-1/4 md:right-1/4 w-72 h-72 md:w-96 md:h-96 bg-blue-500 rounded-full blur-3xl"
+                    className="hidden md:block absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl"
                 />
             </div>
 
