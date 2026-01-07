@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'edge';
 
@@ -6,9 +6,17 @@ export async function POST(request) {
     try {
         const { password } = await request.json();
 
-        // Check against environment variable
-        // Fallback is ONLY for development/demo if .env is missing, but should be removed in prod
-        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Yedi39tepe59skin.';
+        // Get password securely from Cloudflare environment
+        const ctx = getRequestContext();
+        const env = ctx?.env || {}; // Fallback for safety
+
+        // Priority: Cloudflare Env -> Process Env -> Fail
+        const ADMIN_PASSWORD = env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD;
+
+        if (!ADMIN_PASSWORD) {
+            console.error('SERVER ERROR: ADMIN_PASSWORD is not set in environment variables.');
+            return NextResponse.json({ error: 'Configuration error' }, { status: 500 });
+        }
 
         if (password === ADMIN_PASSWORD) {
             const response = NextResponse.json({ success: true });
