@@ -37,7 +37,7 @@ export default function ChatBubble() {
                         initial={{ opacity: 0, scale: 0.8, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                        className="mb-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 w-[340px] sm:w-[500px] flex flex-col max-h-[70vh]"
+                        className="mb-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 w-[380px] sm:w-[600px] flex flex-col max-h-[80vh]"
                     >
                         <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0">
                             <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
