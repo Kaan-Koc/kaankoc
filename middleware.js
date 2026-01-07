@@ -3,6 +3,12 @@ import { NextResponse } from 'next/server';
 export function middleware(request) {
     const { pathname } = request.nextUrl;
 
+    // Redirect .pages.dev to main domain
+    const host = request.headers.get('host');
+    if (host && host.includes('.pages.dev')) {
+        return NextResponse.redirect(new URL(`https://kaankoc.net${pathname}${request.nextUrl.search}`, request.url));
+    }
+
     // Skip static files and API routes
     if (
         pathname.startsWith('/_next') ||
