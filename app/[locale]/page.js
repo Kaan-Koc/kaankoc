@@ -17,10 +17,10 @@ export default async function HomePage() {
   let certificates = [];
 
   // Default empty state to prevent crashes
-  let projects = [];
-  let experiences = [];
-  let education = [];
-  let certificates = [];
+  projects = [];
+  experiences = [];
+  education = [];
+  certificates = [];
 
   try {
     // Attempt to load from Cloudflare KV if available
