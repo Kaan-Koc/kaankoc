@@ -55,13 +55,19 @@ export default function CVSection() {
                                 </h3>
 
                                 {/* PDF Preview */}
-                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
+                                <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors flex items-center justify-center">
+                                    {/* Mobile: Static Icon */}
+                                    <div className="md:hidden flex flex-col items-center justify-center opacity-50">
+                                        <span className="text-6xl mb-2">📄</span>
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">Önizleme</span>
+                                    </div>
+
+                                    {/* Desktop: Interactive Iframe */}
                                     <iframe
                                         src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                                        className="w-full h-full border-0 pointer-events-none md:pointer-events-auto"
+                                        className="hidden md:block w-full h-full border-0"
                                         title={`${cv.name} preview`}
                                         loading="lazy"
-                                        scrolling="no"
                                     />
                                 </div>
 
