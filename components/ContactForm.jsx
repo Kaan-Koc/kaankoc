@@ -117,8 +117,8 @@ export default function ContactForm() {
                 variants={slideInFromBottom}
                 type="submit"
                 disabled={status === 'sending'}
-                whileHover={{ scale: status === 'sending' ? 1 : 1.02 }}
-                whileTap={{ scale: status === 'sending' ? 1 : 0.98 }}
+                whileHover={{ y: -2 }}
+                whileTap={{ y: 0 }}
                 className="w-full px-8 py-4 bg-yeditepe hover:bg-yeditepe-700 disabled:bg-gray-400 text-white rounded-lg text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:cursor-not-allowed"
             >
                 {status === 'sending' ? t('sending') : t('send')}

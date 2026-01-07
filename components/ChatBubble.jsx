@@ -30,7 +30,7 @@ export default function ChatBubble() {
     }, [isOpen]);
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end" ref={bubbleRef}>
+        <div className="fixed bottom-6 right-6 z-[101] flex flex-col items-end" ref={bubbleRef}>
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
