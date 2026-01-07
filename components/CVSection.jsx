@@ -4,12 +4,17 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslations } from '@/lib/i18n';
 import { slideInFromBottom, staggerContainer } from '@/lib/animations';
-import { Document, Page, pdfjs } from 'react-pdf';
+import dynamic from 'next/dynamic';
 
-// Configure PDF.js worker only on client side
-if (typeof window !== 'undefined') {
-    pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
-}
+const PDFThumbnail = dynamic(() => import('./PDFThumbnail'), {
+    ssr: false,
+    loading: () => (
+        <div className="flex flex-col items-center justify-center opacity-50">
+            <span className="text-4xl mb-2">📄</span>
+            <span className="text-xs">Yükleniyor...</span>
+        </div>
+    )
+});
 
 export default function CVSection() {
     const t = useTranslations('CV');
@@ -79,30 +84,7 @@ export default function CVSection() {
 
                                 {/* PDF Preview (Canvas) */}
                                 <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors flex items-center justify-center">
-                                    <Document
-                                        file={cv.url}
-                                        loading={
-                                            <div className="flex flex-col items-center justify-center opacity-50">
-                                                <span className="text-4xl mb-2">📄</span>
-                                                <span className="text-xs">Yükleniyor...</span>
-                                            </div>
-                                        }
-                                        error={
-                                            <div className="flex flex-col items-center justify-center opacity-50 text-red-500">
-                                                <span className="text-4xl mb-2">⚠️</span>
-                                                <span className="text-xs">Önizleme Hatası</span>
-                                            </div>
-                                        }
-                                        className="w-full h-full flex items-center justify-center"
-                                    >
-                                        <Page
-                                            pageNumber={1}
-                                            width={containerWidth ? containerWidth - 8 : 300} // Subtract padding (p-1 = 4px * 2 = 8px)
-                                            renderTextLayer={false}
-                                            renderAnnotationLayer={false}
-                                            className="shadow-sm"
-                                        />
-                                    </Document>
+                                    <PDFThumbnail url={cv.url} width={containerWidth} />
                                 </div>
 
                                 <div className="flex gap-3 mt-2 w-full">
