@@ -57,7 +57,7 @@ export default function CVSection() {
 
                     <motion.div
                         variants={slideInFromBottom}
-                        className="flex flex-wrap justify-center gap-6"
+                        className="flex flex-wrap justify-center gap-3"
                     >
                         {cvs.map((cv) => (
                             <motion.div
