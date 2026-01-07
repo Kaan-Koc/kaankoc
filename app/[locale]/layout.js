@@ -27,6 +27,11 @@ export const metadata = {
         locale: 'tr_TR',
         alternateLocale: 'en_US',
     },
+    icons: {
+        icon: '/images/profile-logo.jpg',
+        shortcut: '/images/profile-logo.jpg',
+        apple: '/images/profile-logo.jpg',
+    },
 };
 
 export function generateStaticParams() {
