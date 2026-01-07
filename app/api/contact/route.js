@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getRequestContext } from '@cloudflare/next-on-pages';
 import { Resend } from 'resend';
 
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Disabled for stability
 
 // POST /api/contact - Submit new message
 export async function POST(request) {

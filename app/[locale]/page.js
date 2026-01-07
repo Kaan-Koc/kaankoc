@@ -8,7 +8,7 @@ import ChatBubble from '@/components/ChatBubble';
 import CVSection from '@/components/CVSection';
 import { getRequestContext } from '@cloudflare/next-on-pages';
 
-export const runtime = 'edge';
+// export const runtime = 'edge'; // Disabled to prevent 500 errors on Vercel/Cloudflare mismatch
 
 export default async function HomePage() {
   let projects = [];
