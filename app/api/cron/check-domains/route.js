@@ -6,14 +6,27 @@ export const runtime = 'edge';
 
 const DOMAINS = ['kaankoc.com', 'kaankoc.net'];
 
-async function checkDomainStatus(domain) {
+const RDAP_SERVERS = {
+    'com': 'https://rdap.verisign.com/com/v1/domain/',
+    'net': 'https://rdap.verisign.com/net/v1/domain/',
+};
+
+function getRdapUrl(domain) {
+    const tld = domain.split('.').pop().toLowerCase();
+    const baseUrl = RDAP_SERVERS[tld] || `https://rdap.org/domain/`;
+    return `${baseUrl}${domain}`;
+}
+
+async function checkDomainWithRDAP(domain) {
     try {
-        const response = await fetch(`https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_free&domainName=${domain}&outputFormat=JSON`);
+        const rdapUrl = getRdapUrl(domain);
+        const response = await fetch(rdapUrl, {
+            headers: { 'Accept': 'application/rdap+json' },
+        });
 
         if (!response.ok) {
             const dnsCheck = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
             const dnsData = await dnsCheck.json();
-
             return {
                 domain,
                 status: dnsData.Answer ? 'active' : 'available',
@@ -22,15 +35,14 @@ async function checkDomainStatus(domain) {
         }
 
         const data = await response.json();
-        const whoisRecord = data.WhoisRecord;
+        const events = data.events || [];
+        const expirationEvent = events.find(e => e.eventAction === 'expiration');
+        const status = data.status || [];
+        const isExpired = status.some(s => s.includes('expired'));
 
-        if (!whoisRecord || whoisRecord.dataError) {
-            return { domain, status: 'error', daysRemaining: null };
-        }
-
-        const expirationDate = whoisRecord.expiresDate || whoisRecord.registryData?.expiresDate;
-
+        const expirationDate = expirationEvent?.eventDate;
         let daysRemaining = null;
+
         if (expirationDate) {
             const expDate = new Date(expirationDate);
             const today = new Date();
@@ -39,7 +51,7 @@ async function checkDomainStatus(domain) {
 
         return {
             domain,
-            status: whoisRecord.domainAvailability === 'UNAVAILABLE' ? 'active' : 'available',
+            status: isExpired ? 'expired' : 'active',
             expirationDate,
             daysRemaining
         };
@@ -87,7 +99,8 @@ async function sendAlert(resend, email, domain, daysRemaining, type) {
                     ${message}
                     <hr style="margin: 20px 0; border: none; border-top: 1px solid #e5e7eb;">
                     <p style="color: #6b7280; font-size: 12px;">
-                        Otomatik Domain İzleme Sistemi - kaankoc.net
+                        Otomatik Domain İzleme Sistemi - kaankoc.net<br>
+                        Bilgiler RDAP (Resmi Registry Protokolü) üzerinden alınmıştır.
                     </p>
                 </div>
             `
@@ -108,23 +121,21 @@ export async function GET(request) {
         }
 
         const resend = new Resend(resendApiKey);
-        const results = await Promise.all(DOMAINS.map(checkDomainStatus));
+        const results = await Promise.all(DOMAINS.map(checkDomainWithRDAP));
 
         // Check each domain and send alerts
         for (const result of results) {
-            if (result.status === 'available') {
-                // Domain became available
+            if (result.status === 'available' || result.status === 'expired') {
                 const alertKey = `domain_alert_available_${result.domain}`;
                 const alreadySent = portfolioKV ? await portfolioKV.get(alertKey) : null;
 
                 if (!alreadySent) {
                     await sendAlert(resend, alertEmail, result.domain, null, 'available');
                     if (portfolioKV) {
-                        await portfolioKV.put(alertKey, 'true', { expirationTtl: 2592000 }); // 30 days
+                        await portfolioKV.put(alertKey, 'true', { expirationTtl: 2592000 });
                     }
                 }
             } else if (result.status === 'active' && result.daysRemaining !== null) {
-                // Check for 30-day and 7-day warnings
                 if (result.daysRemaining <= 7) {
                     const alertKey = `domain_alert_7d_${result.domain}`;
                     const alreadySent = portfolioKV ? await portfolioKV.get(alertKey) : null;
@@ -132,7 +143,7 @@ export async function GET(request) {
                     if (!alreadySent) {
                         await sendAlert(resend, alertEmail, result.domain, result.daysRemaining, '7day');
                         if (portfolioKV) {
-                            await portfolioKV.put(alertKey, 'true', { expirationTtl: 604800 }); // 7 days
+                            await portfolioKV.put(alertKey, 'true', { expirationTtl: 604800 });
                         }
                     }
                 } else if (result.daysRemaining <= 30) {
@@ -142,7 +153,7 @@ export async function GET(request) {
                     if (!alreadySent) {
                         await sendAlert(resend, alertEmail, result.domain, result.daysRemaining, '30day');
                         if (portfolioKV) {
-                            await portfolioKV.put(alertKey, 'true', { expirationTtl: 2592000 }); // 30 days
+                            await portfolioKV.put(alertKey, 'true', { expirationTtl: 2592000 });
                         }
                     }
                 }

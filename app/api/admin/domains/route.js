@@ -5,37 +5,53 @@ export const runtime = 'edge';
 
 const DOMAINS = ['kaankoc.com', 'kaankoc.net'];
 
-// Simple WHOIS-like check using DNS and fallback methods
-async function checkDomainStatus(domain) {
+// RDAP endpoints for different TLDs
+const RDAP_SERVERS = {
+    'com': 'https://rdap.verisign.com/com/v1/domain/',
+    'net': 'https://rdap.verisign.com/net/v1/domain/',
+    'org': 'https://rdap.org/domain/',
+};
+
+function getRdapUrl(domain) {
+    const tld = domain.split('.').pop().toLowerCase();
+    const baseUrl = RDAP_SERVERS[tld] || `https://rdap.org/domain/`;
+    return `${baseUrl}${domain}`;
+}
+
+async function checkDomainWithRDAP(domain) {
     try {
-        // Use a free WHOIS JSON API
-        const response = await fetch(`https://www.whoisxmlapi.com/whoisserver/WhoisService?apiKey=at_free&domainName=${domain}&outputFormat=JSON`);
+        const rdapUrl = getRdapUrl(domain);
+        console.log(`Checking domain ${domain} via RDAP: ${rdapUrl}`);
+
+        const response = await fetch(rdapUrl, {
+            headers: {
+                'Accept': 'application/rdap+json',
+            },
+        });
 
         if (!response.ok) {
-            // Fallback: just check if domain resolves
-            const dnsCheck = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
-            const dnsData = await dnsCheck.json();
-
-            return {
-                domain,
-                status: dnsData.Answer ? 'active' : 'available',
-                expirationDate: null,
-                registrationDate: null,
-                registrar: 'Unknown',
-                daysRemaining: null,
-                lastChecked: new Date().toISOString()
-            };
+            // If RDAP fails, try DNS check as fallback
+            console.log(`RDAP failed for ${domain}, trying DNS fallback`);
+            return await checkDomainFallback(domain);
         }
 
         const data = await response.json();
-        const whoisRecord = data.WhoisRecord;
 
-        if (!whoisRecord || whoisRecord.dataError) {
-            throw new Error('Domain not found or WHOIS data unavailable');
-        }
+        // Parse RDAP response
+        const events = data.events || [];
+        const registrationEvent = events.find(e => e.eventAction === 'registration');
+        const expirationEvent = events.find(e => e.eventAction === 'expiration');
+        const lastUpdateEvent = events.find(e => e.eventAction === 'last changed');
 
-        const expirationDate = whoisRecord.expiresDate || whoisRecord.registryData?.expiresDate;
-        const registrationDate = whoisRecord.createdDate || whoisRecord.registryData?.createdDate;
+        const status = data.status || [];
+        const isActive = status.some(s => s.includes('active') || s.includes('ok'));
+        const isExpired = status.some(s => s.includes('expired'));
+
+        const registrar = data.entities?.find(e => e.roles?.includes('registrar'));
+        const registrarName = registrar?.vcardArray?.[1]?.find(v => v[0] === 'fn')?.[3] || 'Unknown';
+
+        const expirationDate = expirationEvent?.eventDate;
+        const registrationDate = registrationEvent?.eventDate;
 
         let daysRemaining = null;
         if (expirationDate) {
@@ -46,20 +62,50 @@ async function checkDomainStatus(domain) {
 
         return {
             domain,
-            status: whoisRecord.domainAvailability === 'UNAVAILABLE' ? 'active' : 'available',
+            status: isExpired ? 'expired' : (isActive ? 'active' : 'unknown'),
             expirationDate,
             registrationDate,
-            registrar: whoisRecord.registrarName || 'Unknown',
+            lastUpdate: lastUpdateEvent?.eventDate,
+            registrar: registrarName,
             daysRemaining,
-            lastChecked: new Date().toISOString()
+            nameservers: data.nameservers?.map(ns => ns.ldhName) || [],
+            statusCodes: status,
+            lastChecked: new Date().toISOString(),
+            source: 'RDAP'
         };
     } catch (error) {
-        console.error(`Error checking ${domain}:`, error);
+        console.error(`RDAP error for ${domain}:`, error);
+        return await checkDomainFallback(domain);
+    }
+}
+
+async function checkDomainFallback(domain) {
+    try {
+        // Fallback: DNS check to see if domain resolves
+        const dnsCheck = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
+        const dnsData = await dnsCheck.json();
+
+        return {
+            domain,
+            status: dnsData.Answer ? 'active' : 'available',
+            expirationDate: null,
+            registrationDate: null,
+            lastUpdate: null,
+            registrar: 'Unknown (DNS Fallback)',
+            daysRemaining: null,
+            nameservers: [],
+            statusCodes: [],
+            lastChecked: new Date().toISOString(),
+            source: 'DNS Fallback',
+            error: 'RDAP data unavailable'
+        };
+    } catch (error) {
         return {
             domain,
             status: 'error',
             error: error.message,
-            lastChecked: new Date().toISOString()
+            lastChecked: new Date().toISOString(),
+            source: 'Error'
         };
     }
 }
@@ -86,8 +132,8 @@ export async function GET(request) {
             }
         }
 
-        // Fetch fresh data
-        results = await Promise.all(DOMAINS.map(checkDomainStatus));
+        // Fetch fresh data using RDAP
+        results = await Promise.all(DOMAINS.map(checkDomainWithRDAP));
 
         // Cache results for 24 hours
         if (portfolioKV) {
