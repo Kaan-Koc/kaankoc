@@ -5,11 +5,8 @@ import ProjectGallery from '@/components/ProjectGallery';
 import CertificateWall from '@/components/CertificateWall';
 import ContactSection from '@/components/ContactSection';
 import ChatBubble from '@/components/ChatBubble';
-import dynamic from 'next/dynamic';
-
+import CVSection from '@/components/CVSection';
 import { getRequestContext } from '@cloudflare/next-on-pages';
-
-const CVSection = dynamic(() => import('@/components/CVSection'), { ssr: false });
 
 // export const runtime = 'edge'; // Disabled to prevent 500 errors on Vercel/Cloudflare mismatch
 

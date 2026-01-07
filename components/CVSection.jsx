@@ -6,15 +6,19 @@ import { useTranslations } from '@/lib/i18n';
 import { slideInFromBottom, staggerContainer } from '@/lib/animations';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-// Configure PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Configure PDF.js worker only on client side
+if (typeof window !== 'undefined') {
+    pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+}
 
 export default function CVSection() {
     const t = useTranslations('CV');
     const [cvs, setCvs] = useState([]);
     const [containerWidth, setContainerWidth] = useState(null);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
+        setIsMounted(true);
         // Fetch all CVs
         fetch('/api/admin/cv')
             .then(res => res.json())
@@ -39,6 +43,7 @@ export default function CVSection() {
         return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
+    if (!isMounted) return null;
     if (cvs.length === 0) return null;
 
     return (
