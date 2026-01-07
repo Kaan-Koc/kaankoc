@@ -35,7 +35,7 @@ export default function Hero() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:py-32 text-center">
                 <motion.p
                     variants={fadeIn}
                     initial="hidden"
