@@ -4,10 +4,15 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslations } from '@/lib/i18n';
 import { slideInFromBottom, staggerContainer } from '@/lib/animations';
+import { Document, Page, pdfjs } from 'react-pdf';
+
+// Configure PDF.js worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function CVSection() {
-    const t = useTranslations('CV'); // You'll need to add translations for this
+    const t = useTranslations('CV');
     const [cvs, setCvs] = useState([]);
+    const [containerWidth, setContainerWidth] = useState(null);
 
     useEffect(() => {
         // Fetch all CVs
@@ -19,6 +24,16 @@ export default function CVSection() {
                 }
             })
             .catch(err => console.error('Error fetching CVs:', err));
+
+        // Set initial width
+        const updateWidth = () => {
+            const width = Math.min(window.innerWidth * 0.9, 340); // Max width logic
+            setContainerWidth(width);
+        };
+
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+        return () => window.removeEventListener('resize', updateWidth);
     }, []);
 
     if (cvs.length === 0) return null;
@@ -54,22 +69,32 @@ export default function CVSection() {
                                     {(cv.originalName || cv.name).replace(/.pdf$/i, '').replace(/[-_]/g, ' ')}
                                 </h3>
 
-                                {/* PDF Preview */}
+                                {/* PDF Preview (Canvas) */}
                                 <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors flex items-center justify-center">
-                                    {/* Mobile: Static Icon */}
-                                    <div className="md:hidden flex flex-col items-center justify-center opacity-50">
-                                        <span className="text-6xl mb-2">📄</span>
-                                        <span className="text-xs font-semibold uppercase tracking-wider text-gray-500">Önizleme</span>
-                                    </div>
-
-                                    {/* Desktop: Native Iframe */}
-                                    <iframe
-                                        src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                                        className="hidden md:block w-full h-full border-0 pointer-events-none md:pointer-events-auto"
-                                        title={`${cv.name} preview`}
-                                        loading="lazy"
-                                        scrolling="no"
-                                    />
+                                    <Document
+                                        file={cv.url}
+                                        loading={
+                                            <div className="flex flex-col items-center justify-center opacity-50">
+                                                <span className="text-4xl mb-2">📄</span>
+                                                <span className="text-xs">Yükleniyor...</span>
+                                            </div>
+                                        }
+                                        error={
+                                            <div className="flex flex-col items-center justify-center opacity-50 text-red-500">
+                                                <span className="text-4xl mb-2">⚠️</span>
+                                                <span className="text-xs">Önizleme Hatası</span>
+                                            </div>
+                                        }
+                                        className="w-full h-full flex items-center justify-center"
+                                    >
+                                        <Page
+                                            pageNumber={1}
+                                            width={containerWidth ? containerWidth - 24 : 300} // Subtract padding
+                                            renderTextLayer={false}
+                                            renderAnnotationLayer={false}
+                                            className="shadow-sm"
+                                        />
+                                    </Document>
                                 </div>
 
                                 <div className="flex gap-3 mt-2 w-full">
