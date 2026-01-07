@@ -57,15 +57,15 @@ export default function CVSection() {
 
                     <motion.div
                         variants={slideInFromBottom}
-                        className="flex flex-wrap justify-center gap-2"
+                        className="flex flex-wrap justify-center gap-1"
                     >
                         {cvs.map((cv) => (
                             <motion.div
                                 key={cv.name}
                                 whileHover={{ y: -5 }}
-                                className="glass p-1.5 rounded-xl flex flex-col items-center gap-2 group hover:bg-white/10 transition-all border border-transparent hover:border-yeditepe/30 w-full max-w-[340px] mx-auto md:max-w-sm"
+                                className="glass p-1 rounded-xl flex flex-col items-center gap-2 group hover:bg-white/10 transition-all border border-transparent hover:border-yeditepe/30 w-full max-w-[340px] mx-auto md:max-w-sm"
                             >
-                                <h3 className="text-xl font-sans font-bold text-yeditepe dark:text-white truncate max-w-full text-center mb-1 px-2 pt-2">
+                                <h3 className="text-xl font-sans font-bold text-yeditepe dark:text-white truncate max-w-full text-center mb-1 px-2 pt-1">
                                     {(cv.originalName || cv.name).replace(/.pdf$/i, '').replace(/[-_]/g, ' ')}
                                 </h3>
 
@@ -89,7 +89,7 @@ export default function CVSection() {
                                     >
                                         <Page
                                             pageNumber={1}
-                                            width={containerWidth ? containerWidth - 12 : 300} // Subtract padding (p-1.5 = 6px * 2 = 12px)
+                                            width={containerWidth ? containerWidth - 8 : 300} // Subtract padding (p-1 = 4px * 2 = 8px)
                                             renderTextLayer={false}
                                             renderAnnotationLayer={false}
                                             className="shadow-sm"
