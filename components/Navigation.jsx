@@ -67,7 +67,7 @@ export default function Navigation() {
         <motion.nav
             initial={{ y: -100 }}
             animate={{ y: 0 }}
-            className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled || isOpen
+            className={`fixed top-0 left-0 right-0 transition-all duration-300 ${isOpen ? 'z-[200]' : 'z-[100]'} ${isScrolled || isOpen
                 ? 'glass dark:glass-dark shadow-lg'
                 : 'bg-transparent'
                 }`}
