@@ -17,6 +17,9 @@ const anton = Anton({
 export const metadata = {
   title: 'Kaan Koç - Admin Panel',
   description: 'Portfolio admin panel',
+  icons: {
+    icon: '/favicon-circle.png',
+  },
 };
 
 export default function AdminLayout({ children }) {
