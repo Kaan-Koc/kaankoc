@@ -9,17 +9,38 @@ export default function CVSection() {
     const t = useTranslations('CV'); // You'll need to add translations for this
     const [cvs, setCvs] = useState([]);
 
+    const [baseUrl, setBaseUrl] = useState('');
+
     useEffect(() => {
-        // Fetch all CVs
-        fetch('/api/admin/cv')
-            .then(res => res.json())
-            .then(data => {
-                if (data && Array.isArray(data) && data.length > 0) {
-                    setCvs(data);
-                }
-            })
-            .catch(err => console.error('Error fetching CVs:', err));
+        setBaseUrl(window.location.origin);
+        // ... existing fetch logic
     }, []);
+
+    // ... existing logic
+
+    {/* PDF Preview */ }
+    <div className="w-full aspect-[210/297] bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 relative group-hover:border-yeditepe/50 transition-colors">
+        {/* Mobile: Google Docs Viewer (Best for compatibility) */}
+        <div className="md:hidden w-full h-full relative">
+            {baseUrl && (
+                <iframe
+                    src={`https://docs.google.com/viewer?url=${baseUrl}${cv.url}&embedded=true`}
+                    className="absolute top-0 left-0 w-full h-full border-0 pointer-events-none"
+                    title={`${cv.name} preview`}
+                    loading="lazy"
+                />
+            )}
+        </div>
+
+        {/* Desktop: Native Iframe */}
+        <iframe
+            src={`${cv.url}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+            className="hidden md:block w-full h-full border-0 pointer-events-none md:pointer-events-auto"
+            title={`${cv.name} preview`}
+            loading="lazy"
+            scrolling="no"
+        />
+    </div>
 
     if (cvs.length === 0) return null;
 
