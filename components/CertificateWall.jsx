@@ -71,7 +71,7 @@ export default function CertificateWall({ certificates, locale }) {
                                     {cert.name}
                                 </h3>
                                 <p className="text-center text-xs text-gray-600 dark:text-gray-400 mb-3">
-                                    {locale === 'tr' ? `${cert.issuer} ${t('issuedBy')}` : `${t('issuedBy')} ${cert.issuer}`}
+                                    {(locale || 'en') === 'tr' ? `${cert.issuer} ${t('issuedBy')}` : `${t('issuedBy')} ${cert.issuer}`}
                                 </p>
                                 <p className="text-center text-xs text-gray-500 dark:text-gray-500">
                                     {formatDate(cert.issueDate)}
