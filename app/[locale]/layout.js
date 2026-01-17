@@ -1,4 +1,5 @@
-import { Inter, Anton } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { Bebas_Neue } from 'next/font/google';
 import { I18nProvider } from '@/lib/i18n';
 import '../globals.css';
 
@@ -8,7 +9,7 @@ const inter = Inter({
     display: 'swap',
 });
 
-const anton = Anton({
+const bebasNeue = Bebas_Neue({
     weight: '400',
     subsets: ['latin', 'latin-ext'],
     variable: '--font-anton',
@@ -53,8 +54,8 @@ export default async function RootLayout({ children, params }) {
     const messages = messagesMap[locale] || messagesMap.en;
 
     return (
-        <html lang={locale} className={`${inter.variable} ${anton.variable}`}>
-            <body className="antialiased">
+        <html lang={locale} className={`${inter.variable} ${bebasNeue.variable} antialiased`}>
+            <body>
                 <I18nProvider locale={locale} messages={messages}>
                     {children}
                 </I18nProvider>

@@ -1,15 +1,16 @@
-import { Inter, Anton } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { Bebas_Neue } from 'next/font/google';
 import '../globals.css';
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-inter',
   display: 'swap',
 });
 
-const anton = Anton({
+const bebasNeue = Bebas_Neue({
   weight: '400',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   variable: '--font-anton',
   display: 'swap',
 });
@@ -27,7 +28,7 @@ export const metadata = {
 export default function AdminLayout({ children }) {
   return (
     <html lang="tr" style={{ scrollBehavior: 'auto' }}>
-      <body className={`${inter.variable} ${anton.variable}`} style={{ overflowAnchor: 'none' }}>{children}</body>
+      <body className={`${inter.variable} ${bebasNeue.variable} dark antialiased`} style={{ overflowAnchor: 'none' }}>{children}</body>
     </html>
   );
 }
