@@ -13,7 +13,7 @@ function getVideoThumbnail(url) {
     const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
     const youtubeMatch = url.match(youtubeRegex);
     if (youtubeMatch) {
-        return `https://img.youtube.com/vi/${youtubeMatch[1]}/maxresdefault.jpg`;
+        return `https://img.youtube.com/vi/${youtubeMatch[1]}/hqdefault.jpg`;
     }
 
     // Vimeo
