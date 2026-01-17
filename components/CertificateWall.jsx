@@ -71,7 +71,7 @@ export default function CertificateWall({ certificates }) {
                                     {cert.name}
                                 </h3>
                                 <p className="text-center text-xs text-gray-600 dark:text-gray-400 mb-3">
-                                    {t('issuedBy')} {cert.issuer}
+                                    {cert.issuer} {t('issuedBy')}
                                 </p>
                                 <p className="text-center text-xs text-gray-500 dark:text-gray-500">
                                     {formatDate(cert.issueDate)}

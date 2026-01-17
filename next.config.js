@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: 'media.licdn.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        pathname: '/**',
+      },
     ],
   },
   experimental: {
