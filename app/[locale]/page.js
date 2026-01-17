@@ -10,7 +10,8 @@ import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'edge';
 
-export default async function HomePage() {
+export default async function HomePage({ params }) {
+  const { locale } = params;
   let projects = [];
   let experiences = [];
   let education = [];
