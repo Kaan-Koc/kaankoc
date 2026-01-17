@@ -24,7 +24,7 @@
     "Projects": {
         "title": "My Projects",
         "subtitle": "Check out my recent work and projects",
-        "viewDemo": "View Demo",
+        "viewDemo": "View URL",
         "viewCode": "View Code",
         "technologies": "Technologies"
     },
