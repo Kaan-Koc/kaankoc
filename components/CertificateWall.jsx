@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { staggerContainer, slideInFromBottom, scaleIn } from '@/lib/animations';
 import { formatDate } from '@/lib/utils';
 
-export default function CertificateWall({ certificates }) {
+export default function CertificateWall({ certificates, locale }) {
     const t = useTranslations('Certificates');
 
     return (
@@ -71,7 +71,7 @@ export default function CertificateWall({ certificates }) {
                                     {cert.name}
                                 </h3>
                                 <p className="text-center text-xs text-gray-600 dark:text-gray-400 mb-3">
-                                    {cert.issuer} {t('issuedBy')}
+                                    {locale === 'tr' ? `${cert.issuer} ${t('issuedBy')}` : `${t('issuedBy')} ${cert.issuer}`}
                                 </p>
                                 <p className="text-center text-xs text-gray-500 dark:text-gray-500">
                                     {formatDate(cert.issueDate)}

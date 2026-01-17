@@ -52,7 +52,7 @@ export default async function HomePage() {
       <Hero />
       <Timeline experiences={experiences} education={education} />
       <ProjectGallery projects={projects} />
-      <CertificateWall certificates={certificates} />
+      <CertificateWall certificates={certificates} locale={locale} />
       <CVSection />
       <ContactSection />
       <ChatBubble />
