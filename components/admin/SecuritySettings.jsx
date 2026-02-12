@@ -9,6 +9,7 @@ export default function SecuritySettings() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState({ type: '', text: '' });
     const [loading, setLoading] = useState(false);
+    const [formKey, setFormKey] = useState(0); // Force remount on success
 
     const handleChangePassword = async (e) => {
         e.preventDefault();
@@ -41,9 +42,12 @@ export default function SecuritySettings() {
                     type: 'success',
                     text: 'Şifre başarıyla değiştirildi! Diğer tüm oturumlar kapatıldı.'
                 });
+
+                // Clear form and force remount
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
+                setFormKey(prev => prev + 1);
 
                 // Show the new password hash to update in environment
                 if (data.newPasswordHash) {
@@ -107,7 +111,7 @@ export default function SecuritySettings() {
                     <span>🔒</span> Şifre Değiştir
                 </h3>
 
-                <form onSubmit={handleChangePassword} className="space-y-4">
+                <form key={formKey} onSubmit={handleChangePassword} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium mb-2 text-white/90">
                             Mevcut Şifre
