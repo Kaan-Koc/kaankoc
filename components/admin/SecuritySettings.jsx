@@ -30,6 +30,7 @@ export default function SecuritySettings() {
             const res = await fetch('/api/auth/change-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ currentPassword, newPassword }),
             });
 
@@ -69,6 +70,7 @@ export default function SecuritySettings() {
         try {
             const res = await fetch('/api/auth/invalidate-sessions', {
                 method: 'POST',
+                credentials: 'include',
             });
 
             const data = await res.json();
@@ -188,8 +190,8 @@ export default function SecuritySettings() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className={`p-4 rounded-lg ${message.type === 'success'
-                            ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                            : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                        ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                        : 'bg-red-500/20 text-red-300 border border-red-500/30'
                         }`}
                 >
                     {message.text}
