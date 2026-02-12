@@ -1,4 +1,3 @@
-import { getRequestContext } from '@cloudflare/next-on-pages';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
@@ -9,9 +8,16 @@ export async function POST(request) {
     try {
         const { password } = await request.json();
 
-        // Get environment and KV namespaces
-        const ctx = getRequestContext();
-        const env = ctx?.env || {};
+        // Get environment and KV namespaces (optional in dev)
+        let env = {};
+        try {
+            const { getRequestContext } = await import('@cloudflare/next-on-pages');
+            const ctx = getRequestContext();
+            env = ctx?.env || {};
+        } catch (e) {
+            // Running in local dev, use process.env
+            env = process.env;
+        }
         const rateLimitKV = env.RATE_LIMIT;
         const adminLogsKV = env.ADMIN_LOGS;
 
@@ -55,9 +61,20 @@ export async function POST(request) {
         const isValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
 
         if (isValid) {
-            // Generate JWT token
+            // Get current token version
+            const tokenVersionKV = env.TOKEN_VERSION;
+            let tokenVersion = '1';
+            if (tokenVersionKV) {
+                tokenVersion = await tokenVersionKV.get('current_version') || '1';
+            }
+
+            // Generate JWT token with version
             const secret = new TextEncoder().encode(JWT_SECRET);
-            const token = await new SignJWT({ admin: true, ip })
+            const token = await new SignJWT({
+                admin: true,
+                ip,
+                version: tokenVersion
+            })
                 .setProtectedHeader({ alg: 'HS256' })
                 .setIssuedAt()
                 .setExpirationTime('24h')

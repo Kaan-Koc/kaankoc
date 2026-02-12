@@ -36,6 +36,7 @@ export default function AdminDashboard() {
 
 
     const cards = [
+        { title: 'Güvenlik', count: '🔒', href: '/admin/security', icon: '🔐', color: 'from-red-500 to-pink-500' },
         { title: 'Mesajlar', count: stats.messages, href: '/admin/messages', icon: '✉️', color: 'from-pink-500 to-rose-500' },
         { title: 'Domain İzleme', count: '2', href: '/admin/domains', icon: '🌐', color: 'from-indigo-500 to-purple-500' },
         { title: 'Projeler', count: stats.projects, href: '/admin/projects', icon: '💼', color: 'from-blue-500 to-cyan-500' },

@@ -17,5 +17,10 @@ binding = "ADMIN_LOGS"
 id = "admin-logs-kv"
 preview_id = "admin-logs-kv-preview"
 
+[[kv_namespaces]]
+binding = "TOKEN_VERSION"
+id = "token-version-kv"
+preview_id = "token-version-kv-preview"
+
 [triggers]
 crons = ["0 9 * * *"]

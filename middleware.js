@@ -34,7 +34,26 @@ export async function middleware(request) {
             const secret = new TextEncoder().encode(JWT_SECRET);
 
             const { payload } = await jwtVerify(token.value, secret);
-            isAuth = payload.admin === true;
+
+            // Check if token version matches current version (if KV available)
+            let versionValid = true;
+            if (process.env.TOKEN_VERSION_KV) {
+                try {
+                    const { getRequestContext } = await import('@cloudflare/next-on-pages');
+                    const ctx = getRequestContext();
+                    const tokenVersionKV = ctx?.env?.TOKEN_VERSION;
+
+                    if (tokenVersionKV) {
+                        const currentVersion = await tokenVersionKV.get('current_version') || '1';
+                        const tokenVersion = payload.version || '1';
+                        versionValid = tokenVersion === currentVersion;
+                    }
+                } catch (e) {
+                    // If KV not available, skip version check
+                }
+            }
+
+            isAuth = payload.admin === true && versionValid;
         } catch (error) {
             // Invalid or expired token
             isAuth = false;
