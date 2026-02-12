@@ -73,6 +73,9 @@ export async function POST(request) {
             const currentVersion = await tokenVersionKV.get('current_version');
             newVersion = (parseInt(currentVersion || '0') + 1).toString();
             await tokenVersionKV.put('current_version', newVersion);
+
+            // Store new password hash in KV for immediate effect
+            await tokenVersionKV.put('admin_password_hash', newPasswordHash);
         }
 
         // Log password change

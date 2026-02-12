@@ -48,8 +48,18 @@ export async function POST(request) {
             }
         }
 
-        // Get hashed password from environment
-        const ADMIN_PASSWORD_HASH = env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD;
+        // Get hashed password from KV (dynamic) or environment (static)
+        const tokenVersionKV = env.TOKEN_VERSION;
+        let ADMIN_PASSWORD_HASH = env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD;
+
+        // Check KV first for dynamic password updates
+        if (tokenVersionKV) {
+            const kvPasswordHash = await tokenVersionKV.get('admin_password_hash');
+            if (kvPasswordHash) {
+                ADMIN_PASSWORD_HASH = kvPasswordHash;
+            }
+        }
+
         const JWT_SECRET = env.JWT_SECRET || process.env.JWT_SECRET;
 
         if (!ADMIN_PASSWORD_HASH || !JWT_SECRET) {
@@ -61,8 +71,7 @@ export async function POST(request) {
         const isValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
 
         if (isValid) {
-            // Get current token version
-            const tokenVersionKV = env.TOKEN_VERSION;
+            // Get current token version (already fetched above)
             let tokenVersion = '1';
             if (tokenVersionKV) {
                 tokenVersion = await tokenVersionKV.get('current_version') || '1';
